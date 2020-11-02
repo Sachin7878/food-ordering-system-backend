@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.config.CustomUserDetailsService;
 import com.app.config.JwtUtil;
-import com.app.model.AuthenticationRequest;
-import com.app.model.AuthenticationResponse;
-import com.app.model.UserDTO;
+import com.app.model.AuthRequestModel;
+import com.app.model.AuthResponseModel;
+import com.app.model.UserRegister;
 
 import io.jsonwebtoken.impl.DefaultClaims;
 
@@ -39,7 +39,7 @@ public class AuthenticationController {
 	private JwtUtil jwtTokenUtil;
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequestModel authenticationRequest)
 			throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -53,11 +53,11 @@ public class AuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new AuthenticationResponse(token));
+		return ResponseEntity.ok(new AuthResponseModel(token));
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+	public ResponseEntity<?> saveUser(@RequestBody UserRegister user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
@@ -68,7 +68,7 @@ public class AuthenticationController {
 
 		Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
 		String token = jwtTokenUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
-		return ResponseEntity.ok(new AuthenticationResponse(token));
+		return ResponseEntity.ok(new AuthResponseModel(token));
 	}
 
 	public Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {

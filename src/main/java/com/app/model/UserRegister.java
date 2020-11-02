@@ -1,6 +1,6 @@
 package com.app.model;
 
-public class UserDTO {
+public class UserRegister {
 	private String firstName;
 	private String lastName;
 	private String email;

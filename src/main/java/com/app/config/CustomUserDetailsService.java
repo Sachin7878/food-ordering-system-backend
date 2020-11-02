@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.app.model.DAOUser;
-import com.app.model.UserDTO;
+import com.app.model.UserModel;
+import com.app.model.UserRegister;
 import com.app.repository.UserRepository;
 
 @Service
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		List<SimpleGrantedAuthority> roles = null;
-		DAOUser user = userDao.findByEmail(email);
+		UserModel user = userDao.findByEmail(email);
 		if (user != null) {
 			roles = Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
 			return new User(user.getEmail(), user.getPassword(), roles);
@@ -37,8 +37,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	}
 
-	public DAOUser save(UserDTO user) {
-		DAOUser newUser = new DAOUser();
+	public UserModel save(UserRegister user) {
+		UserModel newUser = new UserModel();
 		newUser.setEmail(user.getEmail());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		newUser.setRole(user.getRole());

@@ -1,13 +1,13 @@
 package com.app.model;
 
-public class AuthenticationResponse {
+public class AuthResponseModel {
 	private String token;
 
-	public AuthenticationResponse() {
+	public AuthResponseModel() {
 
 	}
 
-	public AuthenticationResponse(String token) {
+	public AuthResponseModel(String token) {
 		super();
 		this.token = token;
 	}

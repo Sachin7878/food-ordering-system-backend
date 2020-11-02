@@ -1,13 +1,13 @@
 package com.app.model;
 
-public class AuthenticationRequest {
+public class AuthRequestModel {
 	private String email;
 	private String password;
 	
-	public AuthenticationRequest() {
+	public AuthRequestModel() {
 		super();
 	}
-	public AuthenticationRequest(String email, String password) {
+	public AuthRequestModel(String email, String password) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -40,7 +40,7 @@ public class AuthenticationRequest {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AuthenticationRequest other = (AuthenticationRequest) obj;
+		AuthRequestModel other = (AuthRequestModel) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;
