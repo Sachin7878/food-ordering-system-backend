@@ -38,7 +38,7 @@ public class AuthenticationController {
 	@Autowired
 	private JwtUtil jwtTokenUtil;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequestModel authenticationRequest)
 			throws Exception {
 		try {
@@ -56,7 +56,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(new AuthResponseModel(token));
 	}
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserRegister user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
