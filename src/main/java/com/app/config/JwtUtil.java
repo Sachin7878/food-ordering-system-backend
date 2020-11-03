@@ -106,5 +106,18 @@ public class JwtUtil {
 		return roles;
 	}
 	
+	public String getRoleForResponse (String token) {
+		String role;
+		Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+		if (isAdmin != null && isAdmin == true) {
+			role = "admin";
+			
+		} else {
+			role = "user";
+		}
+		return role;
+	}
+	
 	
 }

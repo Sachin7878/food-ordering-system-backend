@@ -56,8 +56,9 @@ public class AuthenticationController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
+		String role = jwtTokenUtil.getRoleForResponse(token);
 
-		return ResponseEntity.ok(new AuthResponseModel(token));
+		return ResponseEntity.ok(new AuthResponseModel(token, role));
 	}
 	
 	@RequestMapping(value = "/api/register", method = RequestMethod.POST)
@@ -65,15 +66,15 @@ public class AuthenticationController {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
-	@RequestMapping(value = "/refreshtoken", method = RequestMethod.GET)
-	public ResponseEntity<?> refreshtoken(HttpServletRequest request) throws Exception {
-		// From the HttpRequest get the claims
-		DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
-
-		Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
-		String token = jwtTokenUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
-		return ResponseEntity.ok(new AuthResponseModel(token));
-	}
+//	@RequestMapping(value = "/refreshtoken", method = RequestMethod.GET)
+//	public ResponseEntity<?> refreshtoken(HttpServletRequest request) throws Exception {
+//		// From the HttpRequest get the claims
+//		DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
+//
+//		Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
+//		String token = jwtTokenUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
+//		return ResponseEntity.ok(new AuthResponseModel(token));
+//	}
 
 	public Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {
 		Map<String, Object> expectedMap = new HashMap<String, Object>();
