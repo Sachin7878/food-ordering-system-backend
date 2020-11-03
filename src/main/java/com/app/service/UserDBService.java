@@ -8,9 +8,10 @@ import com.app.repository.UserRepository;
 
 @Service
 public class UserDBService {
+
 	@Autowired
 	private UserRepository repo;
-	
+
 	public String deleteUser(String email) {
 		UserModel u = repo.findByEmail(email);
 		repo.delete(u);
