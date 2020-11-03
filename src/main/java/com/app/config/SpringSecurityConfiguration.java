@@ -44,7 +44,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/helloadmin", "/deleteUser/**").hasRole("ADMIN").antMatchers("/hellouser")
+		http.csrf().disable().authorizeRequests().antMatchers("/helloadmin", "/deleteUser/**", "/api/createhotel").hasRole("ADMIN").antMatchers("/hellouser")
 				.hasAnyRole("USER", "ADMIN").antMatchers("/api/login", "/api/register").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
 				// make sure we use stateless session; session won't be used to
