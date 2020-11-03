@@ -1,10 +1,12 @@
 package com.app.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,12 +15,15 @@ public class HotelModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(name = "hotel_name", nullable = false)
 	private String hotelName;
-	
+
 	@Column(nullable = false, name = "mobile_no", unique = true, length = 10)
 	private String mobileNo;
+
+	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
+	private AddressModel address;
 
 	public long getId() {
 		return id;
@@ -42,6 +47,14 @@ public class HotelModel {
 
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+
+	public AddressModel getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressModel address) {
+		this.address = address;
 	}
 
 	@Override
@@ -70,6 +83,5 @@ public class HotelModel {
 	public String toString() {
 		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + "]";
 	}
-	
-	
+
 }

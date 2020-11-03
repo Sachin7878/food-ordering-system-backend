@@ -29,6 +29,9 @@ public class UserModel {
 
 	@Column
 	private String role;
+	
+	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
+	private AddressModel address;
 
 	public long getId() {
 		return id;
@@ -85,6 +88,8 @@ public class UserModel {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
 
 	@Override
 	public String toString() {
