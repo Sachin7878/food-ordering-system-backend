@@ -15,13 +15,16 @@ public class HotelDBService {
 	private HotelRepository repo;
 
 	@Transactional
-	public ResponseEntity<Object> createHotelWithoutAddress(HotelModel tempHotel) {
+	public ResponseEntity<Object> createHotel(HotelModel tempHotel) {
 		HotelModel newHotel = new HotelModel();
 		newHotel.setHotelName(tempHotel.getHotelName());
 		newHotel.setMobileNo(tempHotel.getMobileNo());
+		if(tempHotel.getAddress() != null) {
+			newHotel.setAddress(tempHotel.getAddress());
+		}
 		HotelModel savedHotel = repo.save(newHotel);
 		if (repo.findById(savedHotel.getId()).isPresent()) {
-			return ResponseEntity.ok().body("Hotel created successfully.");
+			return ResponseEntity.ok().body("Hotel created successfully:: " + savedHotel);
 		} else
 			return ResponseEntity.unprocessableEntity().body("Failed to create the hotel specified.");
 	}

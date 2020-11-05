@@ -81,7 +81,10 @@ public class HotelModel {
 
 	@Override
 	public String toString() {
-		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + "]";
+		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + ", address=" + address
+				+ "]";
 	}
+
+	
 
 }
