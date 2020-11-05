@@ -38,7 +38,6 @@ public class ResourceController {
 		return userService.deleteUser(email);
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping("/api/createhotel")
 	public ResponseEntity<Object> createHotel(@RequestBody HotelModel incHotel) {
 

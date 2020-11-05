@@ -3,6 +3,7 @@ package com.app.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,8 +45,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.cors().disable();
-		http.csrf().disable().authorizeRequests().antMatchers("/helloadmin", "/deleteUser/**", "/api/createhotel")
+		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers("/helloadmin", "/deleteUser/**", "/api/createhotel")
 				.hasRole("ADMIN").antMatchers("/hellouser").hasAnyRole("USER", "ADMIN")
 				.antMatchers("/api/login", "/api/register").permitAll().anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().

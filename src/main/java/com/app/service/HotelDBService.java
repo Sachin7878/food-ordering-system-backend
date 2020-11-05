@@ -3,6 +3,7 @@ package com.app.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class HotelDBService {
 		}
 		HotelModel savedHotel = repo.save(newHotel);
 		if (repo.findById(savedHotel.getId()).isPresent()) {
-			return ResponseEntity.ok().body("Hotel created successfully:: " + savedHotel);
+			return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(savedHotel);
 		} else
 			return ResponseEntity.unprocessableEntity().body("Failed to create the hotel specified.");
 	}
