@@ -1,11 +1,16 @@
 package com.app.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,6 +26,9 @@ public class HotelModel {
 
 	@Column(nullable = false, name = "mobile_no", unique = true, length = 10)
 	private String mobileNo;
+
+	@OneToMany(targetEntity = MenuItemList.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<MenuItemList> menuItems;
 
 	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
 	private AddressModel address;
@@ -57,6 +65,21 @@ public class HotelModel {
 		this.address = address;
 	}
 
+	public List<MenuItemList> getMenuItems() {
+		return menuItems;
+	}
+
+	public void setMenuItems(List<MenuItemList> menuItems) {
+		this.menuItems = menuItems;
+	}
+
+	public void addItems(MenuItemList tempItems) {
+		if (menuItems == null) {
+			menuItems = new ArrayList<>();
+		}
+		menuItems.add(tempItems);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -81,10 +104,8 @@ public class HotelModel {
 
 	@Override
 	public String toString() {
-		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + ", address=" + address
-				+ "]";
+		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + ", menuItems="
+				+ menuItems + ", address=" + address + "]";
 	}
-
-	
 
 }

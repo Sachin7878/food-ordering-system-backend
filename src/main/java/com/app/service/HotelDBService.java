@@ -23,6 +23,7 @@ public class HotelDBService {
 		HotelModel newHotel = new HotelModel();
 		newHotel.setHotelName(tempHotel.getHotelName());
 		newHotel.setMobileNo(tempHotel.getMobileNo());
+		newHotel.setMenuItems(tempHotel.getMenuItems());
 		AddressModel tempAddress = tempHotel.getAddress();
 		if(tempAddress != null) {
 			newHotel.setAddress(tempAddress);
@@ -37,6 +38,11 @@ public class HotelDBService {
 	@Transactional
 	public ResponseEntity<List<HotelModel>> fetchAllHotels() {
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(repo.findAll());
+	}
+	
+	@Transactional
+	public ResponseEntity<HotelModel> getHotelById(Long id) {
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(repo.findById(id).get());
 	}
 	
 }

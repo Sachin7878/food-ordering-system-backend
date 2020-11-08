@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.model.HotelModel;
+import com.app.model.MenuItemList;
 import com.app.service.HotelDBService;
+import com.app.service.MenuItemsDBService;
 import com.app.service.UserDBService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,6 +27,9 @@ public class ResourceController {
 	private UserDBService userService;
 	@Autowired
 	private HotelDBService hotelService;
+	
+	@Autowired
+	private MenuItemsDBService menuItemService;
 
 	@RequestMapping("/hellouser")
 	public String getUser() {
@@ -43,7 +48,7 @@ public class ResourceController {
 	
 	@PostMapping("/api/createhotel")
 	public ResponseEntity<Object> createHotel(@RequestBody HotelModel incHotel) {
-
+		System.out.println(incHotel);
 		return hotelService.createHotel(incHotel);
 
 	}
@@ -52,6 +57,18 @@ public class ResourceController {
 	public ResponseEntity<List<HotelModel>> getHotels() {
 		
 		return hotelService.fetchAllHotels();
+	}
+	
+	@GetMapping("/api/getmenu/{hotelId}")
+	public ResponseEntity<List<MenuItemList>> getMenu(@PathVariable Long hotelId) {
+		System.out.println(hotelId + " in resource controller getMenu method");
+		return menuItemService.fetchAllMenuItemsByHotel(hotelId);
+	}
+	
+	@GetMapping("/api/gethotelId/{hotelId}")
+	public ResponseEntity<HotelModel> gethotelById(@PathVariable Long hotelId) {
+		System.out.println(hotelId + "in resource controller gethotelById method");
+		return hotelService.getHotelById(hotelId);
 	}
 
 }
