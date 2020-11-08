@@ -27,7 +27,7 @@ public class HotelModel {
 	@Column(nullable = false, name = "mobile_no", unique = true, length = 10)
 	private String mobileNo;
 
-	@OneToMany(targetEntity = MenuItemList.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany( fetch = FetchType.LAZY, targetEntity = MenuItemList.class, cascade = CascadeType.ALL)
 	private List<MenuItemList> menuItems;
 
 	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)

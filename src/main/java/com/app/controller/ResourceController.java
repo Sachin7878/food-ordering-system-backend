@@ -67,7 +67,7 @@ public class ResourceController {
 	
 	@GetMapping("/api/gethotelId/{hotelId}")
 	public ResponseEntity<HotelModel> gethotelById(@PathVariable Long hotelId) {
-		System.out.println(hotelId + "in resource controller gethotelById method");
+		System.out.println(hotelId + " in resource controller gethotelById method");
 		return hotelService.getHotelById(hotelId);
 	}
 
