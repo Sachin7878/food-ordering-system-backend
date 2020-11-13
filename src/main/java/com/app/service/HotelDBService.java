@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.app.cust_excs.ResourceNotFoundException;
 import com.app.model.AddressModel;
 import com.app.model.HotelModel;
 import com.app.repository.HotelRepository;
@@ -42,7 +44,13 @@ public class HotelDBService {
 	
 	@Transactional
 	public ResponseEntity<HotelModel> getHotelById(Long id) {
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(repo.findById(id).get());
+		Optional<HotelModel> hotelById = repo.findById(id);
+		if(hotelById.isPresent()) {
+			HotelModel presentHotel = hotelById.get();
+			return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(presentHotel);
+		} else {
+			throw new ResourceNotFoundException("Hotel by supplied ID not found");
+		}
 	}
 	
 }
