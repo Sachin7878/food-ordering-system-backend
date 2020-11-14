@@ -79,7 +79,7 @@ public class JwtUtil {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
 			
 		} catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-			throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
+			throw new BadCredentialsException("Invalid Credentials, please login again!", ex);
 		} catch (ExpiredJwtException ex) {
 			throw ex;
 		}
