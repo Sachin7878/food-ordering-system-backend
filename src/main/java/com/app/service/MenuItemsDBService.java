@@ -18,14 +18,14 @@ public class MenuItemsDBService {
 	
 	@Autowired
 	private HotelRepository repo;
-
-	@Transactional
-	public ResponseEntity<List<MenuItemList>> fetchAllMenuItemsByHotel(Long hotelId) {
-		System.out.println(hotelId);
-		HotelModel getHotel = repo.findById(hotelId).get();
-		System.out.println(getHotel);
-		List<MenuItemList> menuItems = getHotel.getMenuItems();
-		System.out.println(menuItems);
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(menuItems);
-	}
+//
+//	@Transactional
+//	public ResponseEntity<List<MenuItemList>> fetchAllMenuItemsByHotel(Long hotelId) {
+//		System.out.println(hotelId);
+//		HotelModel getHotel = repo.findById(hotelId).get();
+//		System.out.println(getHotel);
+//		List<MenuItemList> menuItems = getHotel.getMenuItems();
+//		System.out.println(menuItems);
+//		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(menuItems);
+//	}
 }

@@ -2,17 +2,25 @@ package com.app.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "menu_items")
-public class MenuItemList {
+public class MenuItemList extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long mId;
+	private Long id;
 
 	@Column(name = "item_name", nullable = false)
 	private String itemName;
@@ -22,24 +30,31 @@ public class MenuItemList {
 
 	private boolean available;
 
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "hotel_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	private HotelModel hotel;
+
 	public MenuItemList() {
 		super();
 	}
 
-	public MenuItemList(Long mId, String itemName, double itemPrice, boolean available) {
+	public MenuItemList(Long id, String itemName, double itemPrice, boolean available, HotelModel hotel) {
 		super();
-		this.mId = mId;
+		this.id = id;
 		this.itemName = itemName;
 		this.itemPrice = itemPrice;
 		this.available = available;
+		this.hotel = hotel;
 	}
 
-	public Long getmId() {
-		return mId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setmId(Long mId) {
-		this.mId = mId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getItemName() {
@@ -66,10 +81,18 @@ public class MenuItemList {
 		this.available = available;
 	}
 
+	public HotelModel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(HotelModel hotel) {
+		this.hotel = hotel;
+	}
+
 	@Override
 	public String toString() {
-		return "MenuItemList [mId=" + mId + ", itemName=" + itemName + ", itemPrice=" + itemPrice + ", available="
-				+ available + "]";
+		return "MenuItemList [id=" + id + ", itemName=" + itemName + ", itemPrice=" + itemPrice + ", available="
+				+ available + ", hotel=" + hotel + "]";
 	}
 
 }

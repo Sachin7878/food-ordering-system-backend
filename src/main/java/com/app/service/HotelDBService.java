@@ -25,7 +25,7 @@ public class HotelDBService {
 		HotelModel newHotel = new HotelModel();
 		newHotel.setHotelName(tempHotel.getHotelName());
 		newHotel.setMobileNo(tempHotel.getMobileNo());
-		newHotel.setMenuItems(tempHotel.getMenuItems());
+//		newHotel.setMenuItems(tempHotel.getMenuItems());
 		AddressModel tempAddress = tempHotel.getAddress();
 		if(tempAddress != null) {
 			newHotel.setAddress(tempAddress);
