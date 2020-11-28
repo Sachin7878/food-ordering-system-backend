@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.cust_excs.ResourceNotFoundException;
+import com.app.model.AddressModel;
 import com.app.model.HotelModel;
 import com.app.model.MenuItemList;
 import com.app.repository.HotelRepository;
@@ -62,6 +63,10 @@ public class ResourceController {
 		return hotelRepository.findById(hotelId).map(hotel -> {
 			hotel.setHotelName(hotelRequest.getHotelName());
 			hotel.setMobileNo(hotelRequest.getMobileNo());
+			AddressModel reqAdd = hotelRequest.getAddress();
+			if(reqAdd != null) {
+				hotel.setAddress(hotelRequest.getAddress());
+			}
 			return hotelRepository.save(hotel);
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
 	}
