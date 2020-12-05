@@ -12,9 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "hotels")
 public class HotelModel extends AuditModel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

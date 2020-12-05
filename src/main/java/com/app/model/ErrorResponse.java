@@ -6,7 +6,7 @@ public class ErrorResponse {
 	private LocalDateTime timeStamp;
 	private String errDetails;
 	public ErrorResponse() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	public ErrorResponse(String message,String errDetails) {
 		super();

@@ -47,7 +47,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 		newUser.setMobileNo(user.getMobileNo());
 		return userDao.save(newUser);
 	}
-	
-//	private String mobileNo;
 
 }

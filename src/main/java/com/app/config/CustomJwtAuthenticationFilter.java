@@ -34,21 +34,6 @@ public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
 			// JWT Token is in the form "Bearer token". Remove Bearer word and
 			// get only the Token
 
-//			String jwtToken = extractJwtFromRequest(request);
-//
-//			if (StringUtils.hasText(jwtToken) && jwtTokenUtil.validateToken(jwtToken)) {
-//				UserDetails userDetails = new User(jwtTokenUtil.getEmailFromToken(jwtToken), "",
-//						jwtTokenUtil.getRolesFromToken(jwtToken));
-//
-//				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-//						userDetails, null, userDetails.getAuthorities());
-//				// After setting the Authentication in the context, we specify
-//				// that the current user is authenticated. So it passes the
-//				// Spring Security Configurations successfully.
-//				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//			} else {
-//				System.out.println("Cannot set the Security Context");
-//			}
 			String autherizationHeader = request.getHeader("Authorization");
 
 			String token = null;
@@ -85,31 +70,6 @@ public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 		chain.doFilter(request, response);
 
-		/*
-		 * String autherizationHeader = request.getHeader("Authorization");
-		 * 
-		 * String token = null; String email = null;
-		 * 
-		 * if (autherizationHeader != null && autherizationHeader.startsWith("Bearer "))
-		 * { token = autherizationHeader.substring(7); email =
-		 * jwtUtil.extractEmail(token); } if (email != null &&
-		 * SecurityContextHolder.getContext().getAuthentication() == null) { UserDetails
-		 * userDetails = service.loadUserByUsername(email);
-		 * 
-		 * if (jwtUtil.validateToken(token, userDetails)) {
-		 * 
-		 * UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
-		 * UsernamePasswordAuthenticationToken( userDetails, null,
-		 * userDetails.getAuthorities()); usernamePasswordAuthenticationToken
-		 * .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		 * SecurityContextHolder.getContext().setAuthentication(
-		 * usernamePasswordAuthenticationToken); }
-		 * 
-		 * }
-		 * 
-		 * filterChain.doFilter(request, response);
-		 */
-
 	}
 
 	private void allowForRefreshToken(ExpiredJwtException ex, HttpServletRequest request) {
@@ -127,12 +87,5 @@ public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
 
 	}
 
-//	private String extractJwtFromRequest(HttpServletRequest request) {
-//		String bearerToken = request.getHeader("Authorization");
-//		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-//			return bearerToken.substring(7, bearerToken.length());
-//		}
-//		return null;
-//	}
 
 }

@@ -31,9 +31,7 @@ public class AuthenticationController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-//this is to check github branches
-	
-	//this is from sachin's pc
+
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 
