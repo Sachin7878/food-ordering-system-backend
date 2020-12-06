@@ -19,11 +19,11 @@ public class CartItemModel {
 	@OneToOne(targetEntity = CartModel.class, cascade = CascadeType.ALL)
 	private CartModel cart;
 
-	private double price;
+	@OneToOne(targetEntity = MenuItemList.class)
+	private MenuItemList item;
 
 	private int quantity;
 
-	private int discount;
 
 	public Long getId() {
 		return id;
@@ -41,12 +41,13 @@ public class CartItemModel {
 		this.cart = cart;
 	}
 
-	public double getPrice() {
-		return price;
+
+	public MenuItemList getItem() {
+		return item;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setItem(MenuItemList item) {
+		this.item = item;
 	}
 
 	public int getQuantity() {
@@ -55,14 +56,6 @@ public class CartItemModel {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public int getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(int discount) {
-		this.discount = discount;
 	}
 
 }

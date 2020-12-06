@@ -81,6 +81,7 @@ public class MenuItemList extends AuditModel {
 	}
 
 	public void setAvailable(boolean available) {
+		
 		this.available = available;
 	}
 
