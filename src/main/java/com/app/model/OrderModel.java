@@ -2,11 +2,19 @@ package com.app.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "orders")
@@ -22,6 +30,12 @@ public class OrderModel {
 	private int tax;
 	
 	private double order_total;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "customer_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	private UserModel customer;
 
 	public Long getId() {
 		return id;
@@ -53,6 +67,14 @@ public class OrderModel {
 
 	public void setOrder_total(double order_total) {
 		this.order_total = order_total;
+	}
+
+	public UserModel getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(UserModel customer) {
+		this.customer = customer;
 	}
 	
 }

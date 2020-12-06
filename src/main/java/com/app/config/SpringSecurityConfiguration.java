@@ -45,10 +45,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers("/helloadmin", "/deleteUser/**", "/api/createhotel")
-				.hasRole("ADMIN").antMatchers("/hellouser", "/api/getmenu/**").hasAnyRole("USER", "ADMIN")
-				.antMatchers("/api/login", "/api/register", "/api/gethotels", "/api/gethotelId/**").permitAll().antMatchers("/hotels", "/hotels/**").permitAll().anyRequest().authenticated().and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
+		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+				.antMatchers("/api/login", "/api/register").permitAll()
+				.antMatchers(HttpMethod.GET, "/hotels", "/hotels/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/hotels", "/hotels/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.PUT, "/hotels", "/hotels/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasRole("ADMIN")
+				.anyRequest().authenticated()
+				.and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

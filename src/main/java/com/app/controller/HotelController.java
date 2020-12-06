@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.cust_excs.ResourceNotFoundException;
@@ -25,23 +24,13 @@ import com.app.repository.MenuItemRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-public class ResourceController {
+public class HotelController {
 
 	@Autowired
 	private HotelRepository hotelRepository;
 	
 	@Autowired
     private MenuItemRepository menuItemRepository;
-
-	@RequestMapping("/hellouser")
-	public String getUser() {
-		return "Hello user";
-	}
-
-	@RequestMapping("/helloadmin")
-	public String getAdmin() {
-		return "Hello Admin";
-	}
 
 	@GetMapping("/hotels")
 	public Page<HotelModel> getAllHotels(Pageable pageable) {
