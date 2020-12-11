@@ -1,6 +1,5 @@
 package com.app.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,14 +15,21 @@ public class CartItemModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(targetEntity = CartModel.class, cascade = CascadeType.ALL)
-	private CartModel cart;
-
 	@OneToOne(targetEntity = MenuItemList.class)
 	private MenuItemList item;
 
 	private int quantity;
 
+	public CartItemModel() {
+		super();
+	}
+
+	public CartItemModel(Long id, MenuItemList item, int quantity) {
+		super();
+		this.id = id;
+		this.item = item;
+		this.quantity = quantity;
+	}
 
 	public Long getId() {
 		return id;
@@ -32,15 +38,6 @@ public class CartItemModel {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public CartModel getCart() {
-		return cart;
-	}
-
-	public void setCart(CartModel cart) {
-		this.cart = cart;
-	}
-
 
 	public MenuItemList getItem() {
 		return item;

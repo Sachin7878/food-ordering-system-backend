@@ -16,12 +16,23 @@ public class CartModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@OneToOne(targetEntity = UserModel.class, cascade = CascadeType.ALL)
+	private UserModel customer;
+	
 	private double cart_total;
 
 	private int discount;
 
-	@OneToOne(targetEntity = UserModel.class, cascade = CascadeType.ALL)
-	private UserModel customer;
+	public CartModel() {
+		super();
+	}
+
+	public CartModel(double cart_total, int discount, UserModel customer) {
+		super();
+		this.cart_total = cart_total;
+		this.discount = discount;
+		this.customer = customer;
+	}
 
 	public long getId() {
 		return id;
@@ -53,6 +64,12 @@ public class CartModel {
 
 	public void setCustomer(UserModel customer) {
 		this.customer = customer;
+	}
+
+	@Override
+	public String toString() {
+		return "CartModel [id=" + id + ", cart_total=" + cart_total + ", discount=" + discount + ", customer="
+				+ customer + "]";
 	}
 
 }
