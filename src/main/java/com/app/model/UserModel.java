@@ -29,7 +29,7 @@ public class UserModel {
 
 	@Column
 	private String role;
-	
+
 	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
 	private AddressModel address;
 
@@ -88,15 +88,11 @@ public class UserModel {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "DAOUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", mobileNo=" + mobileNo + ", password=" + password + ", role=" + role + "]";
+				+ ", mobileNo=" + mobileNo + ", role=" + role + "]";
 	}
-	
-	
 
 }

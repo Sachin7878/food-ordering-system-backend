@@ -53,8 +53,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
-				// make sure we use stateless session; session won't be used to
-				// store user's state.
 				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 // 		Add a filter to validate the tokens with every request
