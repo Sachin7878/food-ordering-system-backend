@@ -1,13 +1,10 @@
 package com.app.model;
 
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,9 +18,6 @@ public class CartModel {
 
 	@OneToOne(targetEntity = UserModel.class, cascade = CascadeType.ALL)
 	private UserModel customer;
-
-	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-	private Set<CartItemModel> cartItems;
 
 	private double cart_total;
 
@@ -72,18 +66,10 @@ public class CartModel {
 		this.customer = customer;
 	}
 
-	public Set<CartItemModel> getCartItems() {
-		return cartItems;
-	}
-
-	public void setCartItems(Set<CartItemModel> cartItems) {
-		this.cartItems = cartItems;
-	}
-
 	@Override
 	public String toString() {
-		return "CartModel [id=" + id + ", customer=" + customer + ", cartItems=" + cartItems + ", cart_total="
-				+ cart_total + ", discount=" + discount + "]";
+		return "CartModel [id=" + id + ", customer=" + customer + ", cart_total=" + cart_total + ", discount="
+				+ discount + "]";
 	}
 
 }

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "menu_items")
-public class MenuItemList extends AuditModel {
+public class MenuItemModel extends AuditModel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,11 +39,11 @@ public class MenuItemList extends AuditModel {
 	@JsonIgnore
 	private HotelModel hotel;
 
-	public MenuItemList() {
+	public MenuItemModel() {
 		super();
 	}
 
-	public MenuItemList(Long id, String itemName, double itemPrice, boolean available, HotelModel hotel) {
+	public MenuItemModel(Long id, String itemName, double itemPrice, boolean available, HotelModel hotel) {
 		super();
 		this.id = id;
 		this.itemName = itemName;
@@ -81,7 +81,7 @@ public class MenuItemList extends AuditModel {
 	}
 
 	public void setAvailable(boolean available) {
-		
+
 		this.available = available;
 	}
 

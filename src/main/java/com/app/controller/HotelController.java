@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.cust_excs.ResourceNotFoundException;
 import com.app.model.AddressModel;
 import com.app.model.HotelModel;
-import com.app.model.MenuItemList;
+import com.app.model.MenuItemModel;
 import com.app.repository.HotelRepository;
 import com.app.repository.MenuItemRepository;
 
@@ -28,9 +28,9 @@ public class HotelController {
 
 	@Autowired
 	private HotelRepository hotelRepository;
-	
+
 	@Autowired
-    private MenuItemRepository menuItemRepository;
+	private MenuItemRepository menuItemRepository;
 
 	@GetMapping("/hotels")
 	public Page<HotelModel> getAllHotels(Pageable pageable) {
@@ -41,7 +41,7 @@ public class HotelController {
 	public HotelModel createHotel(@Valid @RequestBody HotelModel hotel) {
 		return hotelRepository.save(hotel);
 	}
-	
+
 	@GetMapping("/hotels/{hotelId}")
 	public HotelModel getHotelById(@PathVariable Long hotelId) {
 		return hotelRepository.findById(hotelId).get();
@@ -53,7 +53,7 @@ public class HotelController {
 			hotel.setHotelName(hotelRequest.getHotelName());
 			hotel.setMobileNo(hotelRequest.getMobileNo());
 			AddressModel reqAdd = hotelRequest.getAddress();
-			if(reqAdd != null) {
+			if (reqAdd != null) {
 				hotel.setAddress(hotelRequest.getAddress());
 			}
 			return hotelRepository.save(hotel);
@@ -67,46 +67,45 @@ public class HotelController {
 			return ResponseEntity.ok().build();
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
 	}
-	
-	
+
 	@GetMapping("/hotels/{hotelId}/menu")
-    public Page<MenuItemList> getAllMenuItemsByHotelId(@PathVariable (value = "hotelId") Long hotelId,
-                                                Pageable pageable) {
-        return menuItemRepository.findByHotelId(hotelId, pageable);
-    }
+	public Page<MenuItemModel> getAllMenuItemsByHotelId(@PathVariable(value = "hotelId") Long hotelId,
+			Pageable pageable) {
+		return menuItemRepository.findByHotelId(hotelId, pageable);
+	}
 
-    @PostMapping("/hotels/{hotelId}/menu")
-    public MenuItemList createMenuItem(@PathVariable (value = "hotelId") Long hotelId,
-                                 @Valid @RequestBody MenuItemList menuItem) {
-        return hotelRepository.findById(hotelId).map(hotel -> {
-        	menuItem.setHotel(hotel);
-            return menuItemRepository.save(menuItem);
-        }).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
-    }
+	@PostMapping("/hotels/{hotelId}/menu")
+	public MenuItemModel createMenuItem(@PathVariable(value = "hotelId") Long hotelId,
+			@Valid @RequestBody MenuItemModel menuItem) {
+		return hotelRepository.findById(hotelId).map(hotel -> {
+			menuItem.setHotel(hotel);
+			return menuItemRepository.save(menuItem);
+		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
+	}
 
-    @PutMapping("/hotels/{hotelId}/menu/{menuId}")
-    public MenuItemList updateMenuItem(@PathVariable (value = "hotelId") Long hotelId,
-                                 @PathVariable (value = "menuId") Long menuId,
-                                 @Valid @RequestBody MenuItemList menuRequest) {
-        if(!hotelRepository.existsById(hotelId)) {
-            throw new ResourceNotFoundException("HotelId " + hotelId + " not found");
-        }
+	@PutMapping("/hotels/{hotelId}/menu/{menuId}")
+	public MenuItemModel updateMenuItem(@PathVariable(value = "hotelId") Long hotelId,
+			@PathVariable(value = "menuId") Long menuId, @Valid @RequestBody MenuItemModel menuRequest) {
+		if (!hotelRepository.existsById(hotelId)) {
+			throw new ResourceNotFoundException("HotelId " + hotelId + " not found");
+		}
 
-        return menuItemRepository.findById(menuId).map(menu -> {
-            menu.setItemName(menuRequest.getItemName());
-            menu.setItemPrice(menuRequest.getItemPrice());
-            menu.setAvailable(menuRequest.isAvailable());
-            return menuItemRepository.save(menu);
-        }).orElseThrow(() -> new ResourceNotFoundException("menuId " + menuId + "not found"));
-    }
+		return menuItemRepository.findById(menuId).map(menu -> {
+			menu.setItemName(menuRequest.getItemName());
+			menu.setItemPrice(menuRequest.getItemPrice());
+			menu.setAvailable(menuRequest.isAvailable());
+			return menuItemRepository.save(menu);
+		}).orElseThrow(() -> new ResourceNotFoundException("menuId " + menuId + "not found"));
+	}
 
-    @DeleteMapping("/hotels/{hotelId}/menu/{menuId}")
-    public ResponseEntity<?> deleteComment(@PathVariable (value = "hotelId") Long hotelId,
-            @PathVariable (value = "menuId") Long menuId) {
-        return menuItemRepository.findByIdAndHotelId(menuId, hotelId).map(menu -> {
-        	menuItemRepository.delete(menu);
-            return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Menu Item not found with id " + menuId + " and hotelId " + hotelId));
-    }
+	@DeleteMapping("/hotels/{hotelId}/menu/{menuId}")
+	public ResponseEntity<?> deleteComment(@PathVariable(value = "hotelId") Long hotelId,
+			@PathVariable(value = "menuId") Long menuId) {
+		return menuItemRepository.findByIdAndHotelId(menuId, hotelId).map(menu -> {
+			menuItemRepository.delete(menu);
+			return ResponseEntity.ok().build();
+		}).orElseThrow(() -> new ResourceNotFoundException(
+				"Menu Item not found with id " + menuId + " and hotelId " + hotelId));
+	}
 
 }

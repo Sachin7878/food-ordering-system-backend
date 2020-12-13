@@ -7,10 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.app.model.MenuItemList;
+import com.app.model.MenuItemModel;
 
 @Repository
-public interface MenuItemRepository extends JpaRepository<MenuItemList, Long> {
-	Page<MenuItemList> findByHotelId(Long hotelId, Pageable pageable);
-	Optional<MenuItemList> findByIdAndHotelId(Long id, Long hotelId);
+public interface MenuItemRepository extends JpaRepository<MenuItemModel, Long> {
+	Page<MenuItemModel> findByHotelId(Long hotelId, Pageable pageable);
+
+	Optional<MenuItemModel> findByIdAndHotelId(Long id, Long hotelId);
 }
