@@ -3,9 +3,12 @@ package com.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,27 +41,32 @@ public class CartController {
 		if (customerCart == null) {
 			customerCart = new CartModel();
 			customerCart.setCustomer(currentUser);
-			customerCart.setCart_total(0);
-			customerCart.setDiscount(0);
 			cartRepo.save(customerCart);
 		}
 		return customerCart;
 	}
-
-	@PostMapping("/cart")
-	public CartItemModel addItemToCart(@RequestBody CartItemModel cartItemFromUser,
-			@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
-		UserModel currentUser = userRepo.findByEmail(userEmail);
-		CartModel customerCart = cartRepo.findByCustomer(currentUser);
-		cartItemFromUser.setCart(customerCart);
-		return cartItemRepo.save(cartItemFromUser);
-	}
 	
-	@GetMapping("/cart/items")
-	public List<CartItemModel> getCartItems(@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
+	
+	@PostMapping("/cart")
+	public ResponseEntity<?> addItemToCart(@RequestBody CartItemModel cartItemFromUser,
+		@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
 		UserModel currentUser = userRepo.findByEmail(userEmail);
 		CartModel customerCart = cartRepo.findByCustomer(currentUser);
-		return cartItemRepo.findByCartId(customerCart.getId());
+		List<CartItemModel> items = customerCart.getCartItems();
+		items.add(cartItemFromUser);
+		cartRepo.saveAndFlush(customerCart);
+		return ResponseEntity.ok(customerCart);
+	}
+
+	@DeleteMapping("/cart/{cartItemId}")
+	public ResponseEntity<?> removeItemFromCart(@PathVariable Long cartItemId,
+			@CurrentSecurityContext(expression = "authentication.name") String userEmail){
+		UserModel currentUser = userRepo.findByEmail(userEmail);
+		CartModel customerCart = cartRepo.findByCustomer(currentUser);
+		List<CartItemModel> items = customerCart.getCartItems();
+		items.removeIf(c -> c.getId() == cartItemId);
+		cartRepo.saveAndFlush(customerCart);
+		return ResponseEntity.ok(customerCart);
 	}
 
 }

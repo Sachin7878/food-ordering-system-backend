@@ -11,5 +11,4 @@ public class SpringBackendProjectPrepApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBackendProjectPrepApplication.class, args);
 	}
-
 }
