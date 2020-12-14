@@ -18,30 +18,32 @@ import com.app.repository.UserRepository;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UserController {
-	
+
 	@Autowired
 	UserRepository userRepo;
-	
+
 	@Autowired
 	AddressRepository addressRepo;
-	
+
 	@GetMapping("/api/account")
-	public ResponseEntity<UserModel> getAccountDetails(@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
+	public ResponseEntity<UserModel> getAccountDetails(
+			@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
 		UserModel currentUser = userRepo.findByEmail(userEmail);
 		return ResponseEntity.ok(currentUser);
 	}
-	
+
 	@PostMapping("/api/account/address")
-	public ResponseEntity<?> addAddress(@CurrentSecurityContext(expression = "authentication.name") String userEmail, @RequestBody AddressModel address) {
+	public ResponseEntity<?> addAddress(@CurrentSecurityContext(expression = "authentication.name") String userEmail,
+			@RequestBody AddressModel address) {
 		UserModel currentUser = userRepo.findByEmail(userEmail);
 		currentUser.setAddress(address);
-		return ResponseEntity.ok( userRepo.save(currentUser));
+		return ResponseEntity.ok(userRepo.save(currentUser));
 	}
-	
+
 	@PutMapping("/api/account/address")
 	public ResponseEntity<?> updateAddress(@RequestBody AddressModel reqAdd) {
-		
-		if(addressRepo.existsById(reqAdd.getId())) {
+
+		if (addressRepo.existsById(reqAdd.getId())) {
 			addressRepo.findById(reqAdd.getId()).map(userAdd -> {
 				userAdd.setAddressLine1(reqAdd.getAddressLine1());
 				userAdd.setAddressLine2(reqAdd.getAddressLine2());
@@ -51,7 +53,24 @@ public class UserController {
 				userAdd.setCountry(reqAdd.getCountry());
 				return addressRepo.save(userAdd);
 			});
-			
+
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	@PutMapping("/api/account")
+	public ResponseEntity<?> updateAccount(@RequestBody UserModel reqAcc) {
+		if (userRepo.existsById(reqAcc.getId())) {
+			userRepo.findById(reqAcc.getId()).map(userAcc -> {
+				userAcc.setFirstName(reqAcc.getFirstName());
+				userAcc.setLastName(reqAcc.getLastName());
+				userAcc.setMobileNo(reqAcc.getMobileNo());
+				userAcc.setEmail(reqAcc.getEmail());
+
+				return userRepo.save(userAcc);
+			});
+
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
