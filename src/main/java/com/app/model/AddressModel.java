@@ -112,5 +112,11 @@ public class AddressModel {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AddressModel [id=" + id + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2
+				+ ", city=" + city + ", state=" + state + ", country=" + country + ", pincode=" + pincode + "]";
+	}
+
 }
