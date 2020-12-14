@@ -30,7 +30,7 @@ public class UserModel {
 	@Column
 	private String role;
 
-	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
+	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private AddressModel address;
 
 	public Long getId() {
@@ -87,6 +87,14 @@ public class UserModel {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public AddressModel getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressModel address) {
+		this.address = address;
 	}
 
 	@Override

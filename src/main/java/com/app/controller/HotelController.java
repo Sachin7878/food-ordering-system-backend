@@ -19,6 +19,7 @@ import com.app.cust_excs.ResourceNotFoundException;
 import com.app.model.AddressModel;
 import com.app.model.HotelModel;
 import com.app.model.MenuItemModel;
+import com.app.repository.AddressRepository;
 import com.app.repository.HotelRepository;
 import com.app.repository.MenuItemRepository;
 
@@ -31,6 +32,9 @@ public class HotelController {
 
 	@Autowired
 	private MenuItemRepository menuItemRepository;
+	
+	@Autowired
+	private AddressRepository addressRepo;
 
 	@GetMapping("/hotels")
 	public Page<HotelModel> getAllHotels(Pageable pageable) {
@@ -53,9 +57,21 @@ public class HotelController {
 			hotel.setHotelName(hotelRequest.getHotelName());
 			hotel.setMobileNo(hotelRequest.getMobileNo());
 			AddressModel reqAdd = hotelRequest.getAddress();
-			if (reqAdd != null) {
-				hotel.setAddress(hotelRequest.getAddress());
+			
+			if(addressRepo.existsById(reqAdd.getId())) {
+				addressRepo.findById(reqAdd.getId()).map(hotelAdd -> {
+					hotelAdd.setAddressLine1(reqAdd.getAddressLine1());
+					hotelAdd.setAddressLine2(reqAdd.getAddressLine2());
+					hotelAdd.setPincode(reqAdd.getPincode());
+					hotelAdd.setCity(reqAdd.getCity());
+					hotelAdd.setState(reqAdd.getState());
+					hotelAdd.setCountry(reqAdd.getCountry());
+					return addressRepo.save(hotelAdd);
+				});
+			} else {
+				hotel.setAddress(reqAdd);
 			}
+			
 			return hotelRepository.save(hotel);
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
 	}
