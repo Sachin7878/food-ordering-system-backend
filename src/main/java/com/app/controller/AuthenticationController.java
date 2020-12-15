@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,9 +45,8 @@ public class AuthenticationController {
 					authenticationRequest.getEmail(), authenticationRequest.getPassword()));
 		} catch (DisabledException e) {
 			throw new Exception("User Disabled", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("Invalid Credentials, please login again!", e);
-		}
+		} 
+
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
