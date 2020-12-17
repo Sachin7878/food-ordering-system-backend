@@ -81,11 +81,12 @@ public class CartController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PutMapping("/updateQty")
+	@PutMapping("/cart/updateQty")
 	public ResponseEntity<?> changeInCartItemQuantity(@RequestBody CartItemModel cartItem){
 		CartItemModel cartItemFromDb = cartItemRepo.findById(cartItem.getId()).get();
 		cartItemFromDb.setQuantity(cartItem.getQuantity());
-		return ResponseEntity.ok().build();
+		cartItemRepo.save(cartItemFromDb);
+		return ResponseEntity.ok(cartItemFromDb);
 	}
 
 }
