@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.model.AddressModel;
-import com.app.model.UserModel;
+import com.app.entities.AddressModel;
+import com.app.entities.UserModel;
 import com.app.repository.AddressRepository;
 import com.app.repository.UserRepository;
 

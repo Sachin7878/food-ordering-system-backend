@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.cust_excs.ResourceNotFoundException;
-import com.app.model.AddressModel;
-import com.app.model.HotelModel;
-import com.app.model.MenuItemModel;
+import com.app.entities.AddressModel;
+import com.app.entities.HotelModel;
+import com.app.entities.MenuItemModel;
 import com.app.repository.AddressRepository;
 import com.app.repository.HotelRepository;
 import com.app.repository.MenuItemRepository;

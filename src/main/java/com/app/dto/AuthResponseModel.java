@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.dto;
 
 import org.springframework.beans.factory.annotation.Value;
 

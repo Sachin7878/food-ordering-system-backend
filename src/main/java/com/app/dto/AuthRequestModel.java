@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.dto;
 
 public class AuthRequestModel {
 	private String email;

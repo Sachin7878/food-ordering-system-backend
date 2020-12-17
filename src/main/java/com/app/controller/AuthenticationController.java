@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.config.CustomUserDetailsService;
 import com.app.config.JwtUtil;
-import com.app.model.AuthRequestModel;
-import com.app.model.AuthResponseModel;
-import com.app.model.UserRegister;
+import com.app.dto.AuthRequestModel;
+import com.app.dto.AuthResponseModel;
+import com.app.dto.UserRegister;
 
 import io.jsonwebtoken.impl.DefaultClaims;
 

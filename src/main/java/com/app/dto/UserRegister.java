@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.dto;
 
 public class UserRegister {
 	private String firstName;

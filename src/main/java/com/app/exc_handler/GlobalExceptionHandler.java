@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import com.app.cust_excs.ResourceNotFoundException;
-import com.app.model.ErrorResponse;
+import com.app.dto.ErrorResponse;
 
 
 @ControllerAdvice // stereotype annotation . Class level annotation .

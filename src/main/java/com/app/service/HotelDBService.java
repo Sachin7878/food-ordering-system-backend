@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.cust_excs.ResourceNotFoundException;
-import com.app.model.AddressModel;
-import com.app.model.HotelModel;
+import com.app.entities.AddressModel;
+import com.app.entities.HotelModel;
 import com.app.repository.HotelRepository;
 
 @Service
