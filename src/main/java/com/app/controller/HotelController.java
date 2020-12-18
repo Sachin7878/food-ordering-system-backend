@@ -20,6 +20,7 @@ import com.app.cust_excs.ResourceNotFoundException;
 import com.app.entities.AddressModel;
 import com.app.entities.HotelModel;
 import com.app.entities.MenuItemModel;
+import com.app.entities.UserModel;
 import com.app.repository.AddressRepository;
 import com.app.repository.HotelRepository;
 import com.app.repository.MenuItemRepository;
@@ -47,7 +48,11 @@ public class HotelController {
 	}
 
 	@PostMapping("/hotels")
-	public HotelModel createHotel(@Valid @RequestBody HotelModel hotel) {
+	public HotelModel createHotel(@Valid @RequestBody HotelModel hotel, @RequestParam(required = false) String email) {
+		if(email != null) {
+			UserModel vendorByEmail = userRepo.findByEmail(email);
+			hotel.setVendor(vendorByEmail);
+		}
 		return hotelRepository.save(hotel);
 	}
 
@@ -64,7 +69,10 @@ public class HotelController {
 			hotel.setMobileNo(hotelRequest.getMobileNo());
 			AddressModel reqAdd = hotelRequest.getAddress();
 			
-			System.out.println(userRepo.findByEmail(email));
+			if(email != null) {
+				UserModel vendorByEmail = userRepo.findByEmail(email);
+				hotel.setVendor(vendorByEmail);
+			}
 			
 			if(addressRepo.existsById(reqAdd.getId())) {
 				addressRepo.findById(reqAdd.getId()).map(hotelAdd -> {
