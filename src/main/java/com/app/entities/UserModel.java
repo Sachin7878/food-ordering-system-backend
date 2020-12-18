@@ -99,7 +99,7 @@ public class UserModel {
 
 	@Override
 	public String toString() {
-		return "DAOUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "UserModel [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobileNo=" + mobileNo + ", role=" + role + "]";
 	}
 

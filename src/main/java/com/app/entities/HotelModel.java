@@ -27,6 +27,9 @@ public class HotelModel extends AuditModel {
 
 	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
 	private AddressModel address;
+	
+	@OneToOne(targetEntity = UserModel.class, cascade = CascadeType.ALL)
+	private UserModel vendor;
 
 	public HotelModel() {
 		super();
@@ -71,6 +74,16 @@ public class HotelModel extends AuditModel {
 	public void setAddress(AddressModel address) {
 		this.address = address;
 	}
+	
+	
+
+	public UserModel getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(UserModel vendor) {
+		this.vendor = vendor;
+	}
 
 	@Override
 	public int hashCode() {
@@ -97,7 +110,8 @@ public class HotelModel extends AuditModel {
 	@Override
 	public String toString() {
 		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + ", address=" + address
-				+ "]";
+				+ ", vendor=" + vendor + "]";
 	}
+
 
 }

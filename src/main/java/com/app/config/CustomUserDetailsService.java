@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.UserRegister;
+import com.app.dto.VendorRegister;
 import com.app.entities.UserModel;
 import com.app.repository.UserRepository;
 
@@ -38,6 +39,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 	public UserModel save(UserRegister user) {
+		UserModel newUser = new UserModel();
+		newUser.setEmail(user.getEmail());
+		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+		newUser.setRole(user.getRole());
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
+		newUser.setMobileNo(user.getMobileNo());
+		return userDao.save(newUser);
+	}
+	
+	public UserModel saveVendor(VendorRegister user) {
 		UserModel newUser = new UserModel();
 		newUser.setEmail(user.getEmail());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));

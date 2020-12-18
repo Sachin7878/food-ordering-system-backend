@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.cust_excs.ResourceNotFoundException;
@@ -22,6 +23,7 @@ import com.app.entities.MenuItemModel;
 import com.app.repository.AddressRepository;
 import com.app.repository.HotelRepository;
 import com.app.repository.MenuItemRepository;
+import com.app.repository.UserRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -35,6 +37,9 @@ public class HotelController {
 	
 	@Autowired
 	private AddressRepository addressRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 
 	@GetMapping("/hotels")
 	public Page<HotelModel> getAllHotels(Pageable pageable) {
@@ -52,11 +57,14 @@ public class HotelController {
 	}
 
 	@PutMapping("/hotels/{hotelId}")
-	public HotelModel updatePost(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest) {
+	public HotelModel updatePost(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest, @RequestParam(required = false) String email) {
+		
 		return hotelRepository.findById(hotelId).map(hotel -> {
 			hotel.setHotelName(hotelRequest.getHotelName());
 			hotel.setMobileNo(hotelRequest.getMobileNo());
 			AddressModel reqAdd = hotelRequest.getAddress();
+			
+			System.out.println(userRepo.findByEmail(email));
 			
 			if(addressRepo.existsById(reqAdd.getId())) {
 				addressRepo.findById(reqAdd.getId()).map(hotelAdd -> {

@@ -21,6 +21,7 @@ import com.app.config.JwtUtil;
 import com.app.dto.AuthRequestModel;
 import com.app.dto.AuthResponseModel;
 import com.app.dto.UserRegister;
+import com.app.dto.VendorRegister;
 
 import io.jsonwebtoken.impl.DefaultClaims;
 
@@ -58,6 +59,11 @@ public class AuthenticationController {
 	@RequestMapping(value = "/api/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserRegister user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
+	}
+	
+	@RequestMapping(value = "/api/register/vendor", method = RequestMethod.POST)
+	public ResponseEntity<?> saveVendor(@RequestBody VendorRegister user) throws Exception {
+		return ResponseEntity.ok(userDetailsService.saveVendor(user));
 	}
 	
 //	@RequestMapping(value = "/refreshtoken", method = RequestMethod.GET)
