@@ -51,33 +51,34 @@ public class CartController {
 	@PostMapping("/cart")
 	public ResponseEntity<?> addItemToCart(@RequestBody CartItemModel cartItemFromUser,
 		@CurrentSecurityContext(expression = "authentication.name") String userEmail) {
-		UserModel currentUser = userRepo.findByEmail(userEmail);
-		CartModel customerCart = cartRepo.findByCustomer(currentUser);
+		
+		CartModel customerCart = getCartByUserEmail(userEmail);
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.add(cartItemFromUser);
 		cartRepo.saveAndFlush(customerCart);
+		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok(customerCart.getCartItems());
 	}
 
 	@DeleteMapping("/cart/{cartItemId}")
 	public ResponseEntity<?> removeItemFromCart(@PathVariable Long cartItemId,
 			@CurrentSecurityContext(expression = "authentication.name") String userEmail){
-		UserModel currentUser = userRepo.findByEmail(userEmail);
-		CartModel customerCart = cartRepo.findByCustomer(currentUser);
+		CartModel customerCart = getCartByUserEmail(userEmail);
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.removeIf(c -> c.getId() == cartItemId);
 		cartRepo.saveAndFlush(customerCart);
+		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok(customerCart.getCartItems());
 	}
 	
 	@DeleteMapping("/cart")
 	public ResponseEntity<?> clearCart(
 			@CurrentSecurityContext(expression = "authentication.name") String userEmail){
-		UserModel currentUser = userRepo.findByEmail(userEmail);
-		CartModel customerCart = cartRepo.findByCustomer(currentUser);
+		CartModel customerCart = getCartByUserEmail(userEmail);
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.removeAll(items);
 		cartRepo.saveAndFlush(customerCart);
+		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok().build();
 	}
 	
@@ -85,8 +86,19 @@ public class CartController {
 	public ResponseEntity<?> changeInCartItemQuantity(@RequestBody CartItemModel cartItem){
 		CartItemModel cartItemFromDb = cartItemRepo.findById(cartItem.getId()).get();
 		cartItemFromDb.setQuantity(cartItem.getQuantity());
-		cartItemRepo.save(cartItemFromDb);
+		cartItemRepo.saveAndFlush(cartItemFromDb);
 		return ResponseEntity.ok(cartItemFromDb);
+	}
+	
+	private void calculateTotalAmount(CartModel customerCart) {
+		customerCart.getCartItems().forEach(item -> {
+			  System.out.println((item.getItem().getItemPrice() * item.getQuantity())) ;
+		});
+	}
+	
+	private CartModel getCartByUserEmail(String userEmail) {
+		UserModel currentUser = userRepo.findByEmail(userEmail);
+		return cartRepo.findByCustomer(currentUser);
 	}
 
 }

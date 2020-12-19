@@ -55,6 +55,9 @@ public class JwtUtil {
 		if(roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 			claims.put("isUser", true);
 		}
+		if(roles.contains(new SimpleGrantedAuthority("ROLE_VENDOR"))) {
+			claims.put("isVendor", true);
+		}
 		
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
@@ -97,12 +100,18 @@ public class JwtUtil {
 		Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken).getBody();
 		Boolean isAdmin = claims.get("isAdmin", Boolean.class);
 		Boolean isUser = claims.get("isUser", Boolean.class);
+		Boolean isVendor = claims.get("isVendor", Boolean.class);
+		
 		if (isAdmin != null && isAdmin == true) {
 			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		if (isUser != null && isUser == true) {
 			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 		}
+		if (isVendor != null && isVendor == true) {
+			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_VENDOR"));
+		}
+		
 		return roles;
 	}
 	
@@ -110,11 +119,15 @@ public class JwtUtil {
 		String role;
 		Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 		Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+		Boolean isUser = claims.get("isUser", Boolean.class);
 		if (isAdmin != null && isAdmin == true) {
 			role = "admin";
 			
-		} else {
+		} else if(isUser != null && isUser == true) {
 			role = "user";
+		}
+		else {
+			role = "vendor";
 		}
 		return role;
 	}

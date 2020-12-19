@@ -48,9 +48,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/api/login", "/api/register", "/cart/**", "/api/account/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/hotels", "/hotels/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/hotels", "/hotels/**").hasRole("ADMIN")
-				.antMatchers(HttpMethod.PUT, "/hotels", "/hotels/**").hasRole("ADMIN")
-				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.POST, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
+				.antMatchers(HttpMethod.PUT, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
+				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
 				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
