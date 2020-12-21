@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,6 @@ import com.app.repository.UserRepository;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class OrderController {
-	
 	@Autowired
 	private UserRepository userRepo;
 	
@@ -40,6 +40,14 @@ public class OrderController {
 //	@Autowired
 //	private CartItemRepository cartItemRepo;
 	
+	@GetMapping("/order")
+	public ResponseEntity<?> getOrders(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
+		UserModel currentUser = userRepo.findByEmail(userEmail);
+		orderRepo.findByCustomerId(currentUser.getId());
+		
+		return ResponseEntity.ok().build();
+	}
+	
 	@PostMapping("/order/place")
 	public ResponseEntity<?> placeOrder(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
 		
@@ -48,25 +56,24 @@ public class OrderController {
 		List<CartItemModel> items = customerCart.getCartItems();
 		List<OrderItemModel> orderItems = new ArrayList<>();
 		HotelModel itemHotel = items.get(0).getItem().getHotel();
-		System.out.println(itemHotel.toString());
 		
 		items.forEach(i -> {
 			OrderItemModel newOrderItem = new OrderItemModel();
 			newOrderItem.setItem(i.getItem());
 			newOrderItem.setQuantity(i.getQuantity());
-			System.out.println(newOrderItem.toString());
+			newOrderItem.setAmount(0.0);
 			orderItems.add(newOrderItem);
 			orderItemRepo.saveAndFlush(newOrderItem);
 		});
 		
-		System.out.println("after loop");
 		OrderModel newOrder = new OrderModel();
 		newOrder.setCustomer(currentUser);
 		newOrder.setHotel(itemHotel);
 		newOrder.setOrderItems(orderItems);
 		
-		System.out.println("after new order");
-		System.out.println(newOrder.toString());
+		Double calcAmount = newOrder.calculateGrandTotal(orderItems);
+		
+		newOrder.setGrandTotal(calcAmount);
 
 		orderRepo.saveAndFlush(newOrder);
 		

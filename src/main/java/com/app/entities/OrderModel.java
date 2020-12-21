@@ -1,6 +1,7 @@
 package com.app.entities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -89,6 +90,17 @@ public class OrderModel extends AuditModel {
 
 	public void setGrandTotal(Double grandTotal) {
 		this.grandTotal = grandTotal;
+	}
+
+	public Double calculateGrandTotal(List<OrderItemModel> orderItems) {
+		Double amount = 0.0;
+		Iterator <OrderItemModel> itr = orderItems.iterator();
+		
+		while(itr.hasNext()) {
+			amount += itr.next().getAmount();
+		}
+		
+		return amount;
 	}
 
 	@Override

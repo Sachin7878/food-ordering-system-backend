@@ -56,7 +56,6 @@ public class CartController {
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.add(cartItemFromUser);
 		cartRepo.saveAndFlush(customerCart);
-		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok(customerCart.getCartItems());
 	}
 
@@ -67,7 +66,6 @@ public class CartController {
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.removeIf(c -> c.getId() == cartItemId);
 		cartRepo.saveAndFlush(customerCart);
-		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok(customerCart.getCartItems());
 	}
 	
@@ -78,7 +76,6 @@ public class CartController {
 		List<CartItemModel> items = customerCart.getCartItems();
 		items.removeAll(items);
 		cartRepo.saveAndFlush(customerCart);
-		calculateTotalAmount(customerCart);
 		return ResponseEntity.ok().build();
 	}
 	
@@ -88,12 +85,6 @@ public class CartController {
 		cartItemFromDb.setQuantity(cartItem.getQuantity());
 		cartItemRepo.saveAndFlush(cartItemFromDb);
 		return ResponseEntity.ok(cartItemFromDb);
-	}
-	
-	private void calculateTotalAmount(CartModel customerCart) {
-		customerCart.getCartItems().forEach(item -> {
-			  System.out.println((item.getItem().getItemPrice() * item.getQuantity())) ;
-		});
 	}
 	
 	private CartModel getCartByUserEmail(String userEmail) {

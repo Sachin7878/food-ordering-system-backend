@@ -7,5 +7,5 @@ import com.app.entities.OrderModel;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
-
+	OrderModel findByCustomerId(Long customerId);
 }
