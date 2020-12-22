@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.OrderDto;
 import com.app.entities.CartItemModel;
 import com.app.entities.CartModel;
 import com.app.entities.HotelModel;
@@ -43,9 +44,10 @@ public class OrderController {
 	@GetMapping("/order")
 	public ResponseEntity<?> getOrders(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
 		UserModel currentUser = userRepo.findByEmail(userEmail);
-		orderRepo.findByCustomerId(currentUser.getId());
 		
-		return ResponseEntity.ok().build();
+		OrderDto customerOrder = new OrderDto(orderRepo.findByCustomerId(currentUser.getId()));
+		
+		return ResponseEntity.ok(customerOrder);
 	}
 	
 	@PostMapping("/order/place")

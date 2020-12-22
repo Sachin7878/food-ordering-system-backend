@@ -13,11 +13,14 @@ import javax.persistence.Table;
 @Table(name = "hotels")
 public class HotelModel extends AuditModel {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(name = "hotel_name", nullable = false)
 	private String hotelName;
@@ -35,7 +38,7 @@ public class HotelModel extends AuditModel {
 		super();
 	}
 
-	public HotelModel(long id, String hotelName, String mobileNo, AddressModel address) {
+	public HotelModel(Long id, String hotelName, String mobileNo, AddressModel address) {
 		super();
 		this.id = id;
 		this.hotelName = hotelName;
@@ -43,11 +46,11 @@ public class HotelModel extends AuditModel {
 		this.address = address;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
