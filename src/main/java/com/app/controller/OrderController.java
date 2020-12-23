@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.OrderDto;
@@ -55,6 +57,16 @@ public class OrderController {
 		return ResponseEntity.ok(ordersDto);
 	}
 	
+	@GetMapping("/order/{hotelId}")
+	public ResponseEntity<?> getOrdersByHotelId(@PathVariable Long hotelId){
+		List<OrderModel> orders =orderRepo.findByHotelId(hotelId);
+		List <OrderDto> ordersDto = new ArrayList<>();
+		for(OrderModel order : orders) {
+			ordersDto.add(new OrderDto(order));
+		}
+		return ResponseEntity.ok(ordersDto);
+	}
+	
 	@PostMapping("/order/place")
 	public ResponseEntity<?> placeOrder(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
 		
@@ -88,6 +100,13 @@ public class OrderController {
 		items.removeAll(items);
 		cartRepo.saveAndFlush(customerCart);
 		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/order/{orderId}")
+	public ResponseEntity<?> updateStatus(@PathVariable Long orderId, @RequestBody OrderStatus status){
+		System.out.println(status);
+		orderRepo.findById(orderId).get().setStatus(status);
 		return ResponseEntity.ok().build();
 	}
 	

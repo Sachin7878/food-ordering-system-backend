@@ -10,4 +10,5 @@ import com.app.entities.OrderModel;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
 	List<OrderModel> findByCustomerId(Long customerId);
+	List<OrderModel> findByHotelId(Long hotelId);
 }
