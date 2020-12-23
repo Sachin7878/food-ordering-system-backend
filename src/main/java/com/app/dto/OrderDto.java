@@ -5,6 +5,7 @@ import java.util.List;
 import com.app.entities.AddressModel;
 import com.app.entities.OrderItemModel;
 import com.app.entities.OrderModel;
+import com.app.entities.OrderStatus;
 
 public class OrderDto {
 	private Long orderId;
@@ -12,6 +13,7 @@ public class OrderDto {
 	private HotelDto hotel;
 	private List<OrderItemModel> orderItems;
 	private AddressModel customerAddress;
+	private OrderStatus status;
 
 	public OrderDto(OrderModel order) {
 		super();
@@ -20,6 +22,7 @@ public class OrderDto {
 		this.hotel = new HotelDto(order.getHotel());
 		this.orderItems = order.getOrderItems();
 		this.customerAddress = order.getCustomer().getAddress();
+		this.status = order.getStatus();
 	}
 
 	public Long getOrderId() {
@@ -62,10 +65,23 @@ public class OrderDto {
 		this.customerAddress = customerAddress;
 	}
 
-	@Override
-	public String toString() {
-		return "OrderDto [orderId=" + orderId + ", grandTotal=" + grandTotal + ", hotel=" + hotel + ", orderItems="
-				+ orderItems + ", customerAddress=" + customerAddress + "]";
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public OrderDto(Long orderId, Double grandTotal, HotelDto hotel, List<OrderItemModel> orderItems,
+			AddressModel customerAddress, OrderStatus status) {
+		super();
+		this.orderId = orderId;
+		this.grandTotal = grandTotal;
+		this.hotel = hotel;
+		this.orderItems = orderItems;
+		this.customerAddress = customerAddress;
+		this.status = status;
 	}
 
 }

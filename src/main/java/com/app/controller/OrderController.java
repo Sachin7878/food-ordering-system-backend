@@ -17,6 +17,7 @@ import com.app.entities.CartModel;
 import com.app.entities.HotelModel;
 import com.app.entities.OrderItemModel;
 import com.app.entities.OrderModel;
+import com.app.entities.OrderStatus;
 import com.app.entities.UserModel;
 import com.app.repository.CartRepository;
 import com.app.repository.OrderItemRepository;
@@ -76,6 +77,7 @@ public class OrderController {
 		newOrder.setCustomer(currentUser);
 		newOrder.setHotel(itemHotel);
 		newOrder.setOrderItems(orderItems);
+		newOrder.setStatus(OrderStatus.PENDING);
 		
 		Double calcAmount = newOrder.calculateGrandTotal(orderItems);
 		

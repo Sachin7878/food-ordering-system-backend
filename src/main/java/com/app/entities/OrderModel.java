@@ -5,7 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +42,10 @@ public class OrderModel extends AuditModel {
 	private List<OrderItemModel> orderItems = new ArrayList<>();
 
 	private Double grandTotal;
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private OrderStatus status;
 
 	public OrderModel() {
 		super();
@@ -92,21 +99,29 @@ public class OrderModel extends AuditModel {
 		this.grandTotal = grandTotal;
 	}
 
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
 	public Double calculateGrandTotal(List<OrderItemModel> orderItems) {
 		Double amount = 0.0;
-		Iterator <OrderItemModel> itr = orderItems.iterator();
-		
-		while(itr.hasNext()) {
+		Iterator<OrderItemModel> itr = orderItems.iterator();
+
+		while (itr.hasNext()) {
 			amount += itr.next().getAmount();
 		}
-		
+
 		return amount;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderModel [customer=" + customer + ", hotel=" + hotel + ", orderItems=" + orderItems + ", grandTotal="
-				+ grandTotal + "]";
+		return "OrderModel [id=" + id + ", customer=" + customer + ", hotel=" + hotel + ", orderItems=" + orderItems
+				+ ", grandTotal=" + grandTotal + ", status=" + status + "]";
 	}
 
 }
