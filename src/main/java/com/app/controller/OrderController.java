@@ -1,6 +1,6 @@
 package com.app.controller;
 
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +45,13 @@ public class OrderController {
 	public ResponseEntity<?> getOrders(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
 		UserModel currentUser = userRepo.findByEmail(userEmail);
 		
-		OrderDto customerOrder = new OrderDto(orderRepo.findByCustomerId(currentUser.getId()));
+		List<OrderModel> orders = orderRepo.findByCustomerId(currentUser.getId());
+		List <OrderDto> ordersDto = new ArrayList<>();
+		for(OrderModel order : orders) {
+			ordersDto.add(new OrderDto(order));
+		}
 		
-		return ResponseEntity.ok(customerOrder);
+		return ResponseEntity.ok(ordersDto);
 	}
 	
 	@PostMapping("/order/place")

@@ -3,23 +3,23 @@ package com.app.dto;
 import com.app.entities.HotelModel;
 
 public class HotelDto {
-	private Long hotelId;
+	private Long id;
 	private String hotelName;
 	private String mobileNo;
 
 	public HotelDto(HotelModel hotel) {
 		super();
-		this.hotelId = hotel.getId();
+		this.id = hotel.getId();
 		this.hotelName = hotel.getHotelName();
 		this.mobileNo = hotel.getMobileNo();
 	}
 
-	public Long getHotelId() {
-		return hotelId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getHotelName() {
@@ -40,7 +40,7 @@ public class HotelDto {
 
 	@Override
 	public String toString() {
-		return "HotelDto [hotelId=" + hotelId + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + "]";
+		return "HotelDto [hotelId=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + "]";
 	}
 
 }

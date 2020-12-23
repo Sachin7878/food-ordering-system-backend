@@ -62,4 +62,10 @@ public class OrderDto {
 		this.customerAddress = customerAddress;
 	}
 
+	@Override
+	public String toString() {
+		return "OrderDto [orderId=" + orderId + ", grandTotal=" + grandTotal + ", hotel=" + hotel + ", orderItems="
+				+ orderItems + ", customerAddress=" + customerAddress + "]";
+	}
+
 }
