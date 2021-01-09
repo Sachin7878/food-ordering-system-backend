@@ -27,6 +27,7 @@ import io.jsonwebtoken.impl.DefaultClaims;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@RequestMapping(value = "/api")
 public class AuthenticationController {
 
 	@Autowired
@@ -38,7 +39,7 @@ public class AuthenticationController {
 	@Autowired
 	private JwtUtil jwtTokenUtil;
 
-	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequestModel authenticationRequest)
 			throws Exception {
 		try {
@@ -56,12 +57,12 @@ public class AuthenticationController {
 		return ResponseEntity.ok(new AuthResponseModel(token, role));
 	}
 	
-	@RequestMapping(value = "/api/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserRegister user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
-	@RequestMapping(value = "/api/register/vendor", method = RequestMethod.POST)
+	@RequestMapping(value = "/register/vendor", method = RequestMethod.POST)
 	public ResponseEntity<?> saveVendor(@RequestBody VendorRegister user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.saveVendor(user));
 	}

@@ -62,7 +62,7 @@ public class HotelController {
 	}
 
 	@PutMapping("/hotels/{hotelId}")
-	public HotelModel updatePost(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest, @RequestParam(required = false) String email) {
+	public HotelModel updateHotel(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest, @RequestParam(required = false) String email) {
 		
 		return hotelRepository.findById(hotelId).map(hotel -> {
 			hotel.setHotelName(hotelRequest.getHotelName());
@@ -93,9 +93,10 @@ public class HotelController {
 	}
 
 	@DeleteMapping("/hotels/{hotelId}")
-	public ResponseEntity<?> deletePost(@PathVariable Long hotelId) {
+	public ResponseEntity<?> deleteHotel(@PathVariable Long hotelId) {
 		return hotelRepository.findById(hotelId).map(hotel -> {
 			hotelRepository.delete(hotel);
+			userRepo.delete(hotel.getVendor());
 			return ResponseEntity.ok().build();
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
 	}
