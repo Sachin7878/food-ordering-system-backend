@@ -104,9 +104,11 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order/{orderId}")
-	public ResponseEntity<?> updateStatus(@PathVariable Long orderId, @RequestBody OrderStatus status){
-		System.out.println(status);
-		orderRepo.findById(orderId).get().setStatus(status);
+	public ResponseEntity<?> updateStatus(@PathVariable Long orderId, @RequestBody String status){
+		OrderStatus newStatus = OrderStatus.valueOf(status);
+		OrderModel orderToUpdate = orderRepo.findById(orderId).get();
+		orderToUpdate.setStatus(newStatus);
+		orderRepo.save(orderToUpdate);
 		return ResponseEntity.ok().build();
 	}
 	
