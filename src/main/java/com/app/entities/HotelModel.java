@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "hotels")
@@ -30,9 +33,15 @@ public class HotelModel extends AuditModel {
 
 	@OneToOne(targetEntity = AddressModel.class, cascade = CascadeType.ALL)
 	private AddressModel address;
-	
+
 	@OneToOne(targetEntity = UserModel.class, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private UserModel vendor;
+
+	@Lob
+	private byte[] image;
+	@Column(length = 30)
+	private String imageContentType;
 
 	public HotelModel() {
 		super();
@@ -77,8 +86,6 @@ public class HotelModel extends AuditModel {
 	public void setAddress(AddressModel address) {
 		this.address = address;
 	}
-	
-	
 
 	public UserModel getVendor() {
 		return vendor;
@@ -86,6 +93,22 @@ public class HotelModel extends AuditModel {
 
 	public void setVendor(UserModel vendor) {
 		this.vendor = vendor;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getImageContentType() {
+		return imageContentType;
+	}
+
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
 	}
 
 	@Override
@@ -115,6 +138,5 @@ public class HotelModel extends AuditModel {
 		return "HotelModel [id=" + id + ", hotelName=" + hotelName + ", mobileNo=" + mobileNo + ", address=" + address
 				+ ", vendor=" + vendor + "]";
 	}
-
 
 }

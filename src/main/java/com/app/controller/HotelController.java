@@ -1,10 +1,13 @@
 package com.app.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.cust_excs.ResourceNotFoundException;
 import com.app.entities.AddressModel;
@@ -35,10 +39,10 @@ public class HotelController {
 
 	@Autowired
 	private MenuItemRepository menuItemRepository;
-	
+
 	@Autowired
 	private AddressRepository addressRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
 
@@ -49,7 +53,7 @@ public class HotelController {
 
 	@PostMapping("/hotels")
 	public HotelModel createHotel(@Valid @RequestBody HotelModel hotel, @RequestParam(required = false) String email) {
-		if(email != null) {
+		if (email != null) {
 			UserModel vendorByEmail = userRepo.findByEmail(email);
 			hotel.setVendor(vendorByEmail);
 		}
@@ -62,19 +66,20 @@ public class HotelController {
 	}
 
 	@PutMapping("/hotels/{hotelId}")
-	public HotelModel updateHotel(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest, @RequestParam(required = false) String email) {
-		
+	public HotelModel updateHotel(@PathVariable Long hotelId, @Valid @RequestBody HotelModel hotelRequest,
+			@RequestParam(required = false) String email) {
+
 		return hotelRepository.findById(hotelId).map(hotel -> {
 			hotel.setHotelName(hotelRequest.getHotelName());
 			hotel.setMobileNo(hotelRequest.getMobileNo());
 			AddressModel reqAdd = hotelRequest.getAddress();
-			
-			if(email != null) {
+
+			if (email != null) {
 				UserModel vendorByEmail = userRepo.findByEmail(email);
 				hotel.setVendor(vendorByEmail);
 			}
-			
-			if(addressRepo.existsById(reqAdd.getId())) {
+
+			if (addressRepo.existsById(reqAdd.getId())) {
 				addressRepo.findById(reqAdd.getId()).map(hotelAdd -> {
 					hotelAdd.setAddressLine1(reqAdd.getAddressLine1());
 					hotelAdd.setAddressLine2(reqAdd.getAddressLine2());
@@ -87,7 +92,7 @@ public class HotelController {
 			} else {
 				hotel.setAddress(reqAdd);
 			}
-			
+
 			return hotelRepository.save(hotel);
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
 	}
@@ -99,6 +104,23 @@ public class HotelController {
 			userRepo.delete(hotel.getVendor());
 			return ResponseEntity.ok().build();
 		}).orElseThrow(() -> new ResourceNotFoundException("HotelId " + hotelId + " not found"));
+	}
+
+	@PostMapping("/hotels/{hotelId}/image")
+	public ResponseEntity<?> fileUploadWithParams(@PathVariable Long hotelId, @RequestParam MultipartFile imageFile) {
+
+		HotelModel hotel = hotelRepository.findById(hotelId).get();
+		try {
+
+			hotel.setImage(imageFile.getBytes());
+			hotel.setImageContentType(imageFile.getContentType());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		hotelRepository.save(hotel);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/hotels/{hotelId}/menu")
