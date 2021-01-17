@@ -73,15 +73,4 @@ public class OrderDto {
 		this.status = status;
 	}
 
-	public OrderDto(Long orderId, Double grandTotal, HotelDto hotel, List<OrderItemModel> orderItems,
-			AddressModel customerAddress, OrderStatus status) {
-		super();
-		this.orderId = orderId;
-		this.grandTotal = grandTotal;
-		this.hotel = hotel;
-		this.orderItems = orderItems;
-		this.customerAddress = customerAddress;
-		this.status = status;
-	}
-
 }
