@@ -40,7 +40,7 @@ public class GlobalExceptionHandler //extends ResponseEntityExceptionHandler
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<?> handleDataIntegrityViolationExc(DataIntegrityViolationException e, WebRequest request) {
 		System.out.println("in exc 3!!!");
-		ErrorResponse errResp = new ErrorResponse("Email or Mobile Number already exists! Please use a different one!", request.getDescription(false));
+		ErrorResponse errResp = new ErrorResponse("Server side error, please repeat your last action again!", request.getDescription(false));
 		return new ResponseEntity<>(errResp, HttpStatus.BAD_REQUEST);
 	}
 
