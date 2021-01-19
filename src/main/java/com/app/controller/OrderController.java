@@ -40,9 +40,6 @@ public class OrderController {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepo;
-
-//	@Autowired
-//	private CartItemRepository cartItemRepo;
 	
 	@GetMapping("/order")
 	public ResponseEntity<?> getOrders(@CurrentSecurityContext(expression = "authentication.name") String userEmail){
