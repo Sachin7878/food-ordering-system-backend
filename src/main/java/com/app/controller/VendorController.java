@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.cust_excs.ResourceNotFoundException;
 import com.app.entities.AddressModel;
 import com.app.entities.HotelModel;
-import com.app.entities.MenuItemModel;
 import com.app.entities.UserModel;
 import com.app.repository.AddressRepository;
 import com.app.repository.HotelRepository;
@@ -85,19 +84,6 @@ public class VendorController {
 		hotelRepo.saveAndFlush(vendorHotel);
 
 		return ResponseEntity.ok(vendorHotel);
-	}
-	
-	
-	@PutMapping("/hotels/menu/{menuId}")
-	public MenuItemModel updateMenuItem(
-			@PathVariable(value = "menuId") Long menuId, @Valid @RequestBody MenuItemModel menuRequest) {
-
-		return menuItemRepository.findById(menuId).map(menu -> {
-			menu.setItemName(menuRequest.getItemName());
-			menu.setItemPrice(menuRequest.getItemPrice());
-			menu.setAvailable(menuRequest.isAvailable());
-			return menuItemRepository.save(menu);
-		}).orElseThrow(() -> new ResourceNotFoundException("menuId " + menuId + "not found"));
 	}
 	
 	@DeleteMapping("/hotel/menu/{menuId}")
