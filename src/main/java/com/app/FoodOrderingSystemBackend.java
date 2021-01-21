@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class SpringBackendProjectPrepApplication {
+public class FoodOrderingSystemBackend {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBackendProjectPrepApplication.class, args);
+		SpringApplication.run(FoodOrderingSystemBackend.class, args);
 	}
 }
