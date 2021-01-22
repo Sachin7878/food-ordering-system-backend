@@ -3,7 +3,7 @@ sudo: true
 jdk:
   - openjdk8
 
-script: ./mvnw package
+script: ./mvnw package -Dspring-boot.run.profiles=prod
 
 before_install:
   - chmod +x mvnw
