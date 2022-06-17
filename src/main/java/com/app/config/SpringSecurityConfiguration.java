@@ -7,6 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -44,16 +46,21 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/v2/api-docs", "/configuration/**", "/swagger-resources/**", "/swagger-ui.html",
+				"/webjars/**", "/api-docs/**");
+	}
+
+	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/api/login", "/api/register", "/cart/**", "/api/account/**", "/order/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/hotels", "/hotels/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
 				.antMatchers(HttpMethod.PUT, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
-				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR")
-				.anyRequest().authenticated()
-				.and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
-				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.antMatchers(HttpMethod.DELETE, "/hotels", "/hotels/**").hasAnyRole("ADMIN", "VENDOR").anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 // 		Add a filter to validate the tokens with every request
 		http.addFilterBefore(customJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
